@@ -1,15 +1,17 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../axios";
 
 import { Post } from "../components/Post";
 import { Index } from "../components/AddComment";
 import { CommentsBlock } from "../components/CommentsBlock";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 export const FullPost = () => {
   const [data, setData] = React.useState();
   const [isLoading, setLoading] = React.useState(true);
   const { id } = useParams();
+
 
   React.useEffect(() => {
     axios
@@ -17,9 +19,8 @@ export const FullPost = () => {
       .then((res) => {
         setData(res.data);
         setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
+      }).catch((err) => {
+        console.warn(err);
         alert("Ошибка при получении статьи");
       });
   }, [id]);
@@ -31,37 +32,33 @@ export const FullPost = () => {
   return (
     <>
       <Post
-        key={data._id}
         id={data._id}
         title={data.title}
-        imageUrl={
-          "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"
-        }
+        imageUrl={`http://localhost:4444${data.imageUrl}`}
         user={data.user}
         createdAt={data.createdAt}
         viewsCount={data.viewsCount}
         commentsCount={data.commentsCount}
         tags={data.tags}
-        isFullPost
-      >
-        <p>{data.text}</p>
+        isFullPost>
+        <ReactMarkdown children={data.text} />
       </Post>
       <CommentsBlock
         items={[
           {
             user: {
-              fullName: "Вася Пупкин",
-              avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
+              fullName: "Агапочкин Миша",
+              avatarUrl: "https://sun3-21.userapi.com/impg/2YGsKlyJHy1DP7_nYcP9qPaiibOwbCEeN3dbWg/xXB280vcd6o.jpg?size=1080x667&quality=96&sign=f95ce2456aca3756155a447f623ecb6a&type=album",
             },
-            text: "Это тестовый комментарий 555555",
+            text: "Это тестовый комментарий #121",
           },
           {
             user: {
-              fullName: "Иван Иванов",
-              avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
+              fullName: "Арапов Илюня",
+              avatarUrl: "https://sun3-2.userapi.com/impg/By7o7YWoyOOI-uyY9jG5e64HiGj5B11mlmg7ug/c9PvS-gmUDc.jpg?size=1620x2160&quality=96&sign=71bcbcd8011cbb9e1dbb1126450d4502&type=album",
             },
             text:
-              "When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top",
+              "Але",
           },
         ]}
         isLoading={false}

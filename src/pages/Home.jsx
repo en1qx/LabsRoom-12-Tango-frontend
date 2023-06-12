@@ -11,7 +11,8 @@ import { fetchPosts, fetchTags } from '../redux/slices/posts';
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const { posts, tags } = useSelector(state => state.posts);
+  const { posts, tags } = useSelector((state) => state.posts);
+  const userData = useSelector((state) => state.auth.data);
 
 const isPostsLoading = posts.status === 'loading';
 const isTagsLoading = tags.status === 'loading';
@@ -36,13 +37,13 @@ React.useEffect(() => {
       key={obj._id}
       id={obj._id}
       title={obj.title}
-      imageUrl={"https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}
+      imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
       user={obj.user}
       createdAt={obj.createdAt}
       viewsCount={obj.viewsCount}
       commentsCount={obj.commentsCount}
       tags={obj.tags}
-      isEditable
+      isEditable={ userData?._id === obj.user._id}
     />
   ))
 )}
@@ -54,7 +55,7 @@ React.useEffect(() => {
             items={[
               {
                 user: {
-                  fullName: 'Артем Сумин',
+                  fullName: 'Сумин Артем',
                   avatarUrl: 'https://sun9-7.userapi.com/impg/6gn4oewMz0etn_hHFYgP3PCRCqY5hHugpkSrtA/SBsReRsgxkY.jpg?size=1620x2160&quality=95&sign=d7d3b94e725e6b527985ae5f1e9f2aaf&type=album',
                 },
                 text: 'Это тестовый комментарий',
