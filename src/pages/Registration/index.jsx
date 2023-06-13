@@ -36,7 +36,7 @@ export const Registration = () => {
 };
 
   if (isAuth) {
-    return <Navigate to="/"/>
+    return <Navigate to="/posts"/>
   }
 
   return (

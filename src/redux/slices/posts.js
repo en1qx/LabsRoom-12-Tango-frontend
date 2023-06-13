@@ -1,8 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from '../../axios'
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-    const { data } = await axios.get('/posts');
+// Fetch posts with filter by tags
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (tags) => {
+    const { data } = await axios.get('/posts', {
+        params: {
+            tags: tags,
+        }
+    });
     return data;
 });
 

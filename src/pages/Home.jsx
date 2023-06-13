@@ -14,13 +14,16 @@ export const Home = () => {
   const { posts, tags } = useSelector((state) => state.posts);
   const userData = useSelector((state) => state.auth.data);
 
-const isPostsLoading = posts.status === 'loading';
-const isTagsLoading = tags.status === 'loading';
+  const isPostsLoading = posts.status === 'loading';
+  const isTagsLoading = tags.status === 'loading';
 
-React.useEffect(() => {
-  dispatch(fetchPosts());
-  dispatch(fetchTags());
-}, [dispatch]);
+  // Get tag from url
+  const tag = new URLSearchParams(window.location.search).get('tag');
+
+  React.useEffect(() => {
+    dispatch(fetchPosts(tag));
+    dispatch(fetchTags());
+  }, [dispatch]);
 
   return (
     <>
@@ -29,25 +32,24 @@ React.useEffect(() => {
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-        {isPostsLoading ? (
-  [...Array(5)].map((_, index) => <Post key={index} isLoading={true} />)
-) : (
-  posts.items.map((obj) => (
-    <Post
-      key={obj._id}
-      id={obj._id}
-      title={obj.title}
-      imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
-      user={obj.user}
-      createdAt={obj.createdAt}
-      viewsCount={obj.viewsCount}
-      commentsCount={obj.commentsCount}
-      tags={obj.tags}
-      isEditable={ userData?._id === obj.user._id}
-    />
-  ))
-)}
-
+          {isPostsLoading ? (
+            [...Array(5)].map((_, index) => <Post key={index} isLoading={true} />)
+          ) : (
+            posts.items.map((obj) => (
+              <Post
+                key={obj._id}
+                id={obj._id}
+                title={obj.title}
+                imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
+                user={obj.user}
+                createdAt={obj.createdAt}
+                viewsCount={obj.viewsCount}
+                commentsCount={obj.commentsCount}
+                tags={obj.tags}
+                isEditable={userData?._id === obj.user._id}
+              />
+            ))
+          )}
         </Grid>
         <Grid xs={4} item>
           <TagsBlock items={tags.items} isLoading={isTagsLoading} />

@@ -86,7 +86,7 @@ export const AddPost = () => {
   );
 
   if (!window.localStorage.getItem('token') && !isAuth) {
-    return <Navigate to="/" />
+    return <Navigate to="/posts" />
   }
  
   return (
@@ -126,7 +126,7 @@ export const AddPost = () => {
         <Button onClick={onSubmit} size="large" variant="contained">
           Опубликовать
         </Button>
-        <a href="/">
+        <a href="/posts">
           <Button size="large">Отмена</Button>
         </a>
       </div>

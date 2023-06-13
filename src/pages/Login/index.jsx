@@ -34,7 +34,7 @@ export const Login = () => {
 };
 
   if (isAuth) {
-    return <Navigate to="/"/>
+    return <Navigate to="/posts"/>
   }
 
   return (
